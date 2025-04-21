@@ -5,7 +5,7 @@ import { TaskProvider } from "./context";
 function App() {
 	return (
 		<TaskProvider>
-			<TaskBoard />;
+			<TaskBoard />
 		</TaskProvider>
 	);
 }
