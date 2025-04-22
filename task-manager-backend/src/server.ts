@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3001;
 
-setLogLevel("trace");
+setLogLevel("info");
 
 // CORS middleware
 app.use(configuredCORS);
