@@ -1,42 +1,42 @@
-import { TaskColumnType, TaskPriority } from "../types";
+import { TaskColumnType, TaskPriority, TaskStatus } from "../types";
 
 export const TASKS: Array<TaskColumnType> = [
 	{
-		id: "toDo",
+		id: TaskStatus.TO_DO,
 		title: "To Do",
 		tasks: [
 			{
-				id: "task11",
+				_id: "task11",
 				title: "Create API",
 				description: "Create API",
-				dueDate: new Date(),
+				dueDate: new Date().toISOString(),
 				priority: TaskPriority.HIGH,
 			},
 			{
-				id: "task12",
+				_id: "task12",
 				title: "Add responsiveness",
 				description: "Add responsiveness",
-				dueDate: new Date(),
+				dueDate: new Date().toISOString(),
 				priority: TaskPriority.MEDIUM,
 			},
 			{
-				id: "task13",
+				_id: "task13",
 				title: "Design Database",
 				description: "Design Database",
-				dueDate: new Date(),
+				dueDate: new Date().toISOString(),
 				priority: TaskPriority.HIGH,
 			},
 		],
 	},
 	{
-		id: "inProgress",
+		id: TaskStatus.IN_PROGRESS,
 		title: "In Progress",
 		tasks: [
 			{
-				id: "task21",
+				_id: "task21",
 				title: "Code Refactor",
 				description: "code refactor",
-				dueDate: new Date(),
+				dueDate: new Date().toISOString(),
 				priority: TaskPriority.LOW,
 			},
 			{
