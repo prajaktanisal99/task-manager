@@ -31,7 +31,11 @@ export const AddUpdateTask = () => {
 			status: editTask ? taskToEdit?.status : TaskStatus.TO_DO,
 		};
 
-		editTask ? await updateTask(taskData, { action: TaskUpdateAction.EDIT }) : await addNewTask(taskData);
+		if (editTask) {
+			await updateTask(taskData, { action: TaskUpdateAction.EDIT });
+		} else {
+			await addNewTask(taskData);
+		}
 		toggleAddTask();
 		await getAllTasks();
 	};

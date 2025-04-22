@@ -1,6 +1,6 @@
 import { getTasks } from "../../../apis";
 import { TaskColumnType } from "../../../types";
-import { TaskActions, TaskActionType } from "../../task-context";
+import { TaskActions, TaskActionType } from "../../task-context-type";
 
 export const getAllTasksAction = async (dispatch: React.Dispatch<TaskActionType>) => {
 	try {
@@ -11,7 +11,8 @@ export const getAllTasksAction = async (dispatch: React.Dispatch<TaskActionType>
 			type: TaskActions.GET_ALL_TASKS_SUCCESS,
 			payload: columns,
 		});
-	} catch (error: any) {
+	} catch (error) {
+		console.error(error);
 		dispatch({
 			type: TaskActions.GET_ALL_TASKS_FAILURE,
 		});

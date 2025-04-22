@@ -1,7 +1,7 @@
 // task-context/actions/addTaskAction.ts
+import { TaskActions, TaskActionType } from "../..";
 import { addTask } from "../../../apis";
 import { TaskType } from "../../../types";
-import { TaskActionType, TaskActions } from "../../task-context";
 
 export const addTaskAction = async (task: TaskType, dispatch: React.Dispatch<TaskActionType>) => {
 	try {
@@ -12,10 +12,11 @@ export const addTaskAction = async (task: TaskType, dispatch: React.Dispatch<Tas
 			type: TaskActions.ADD_NEW_TASK_SUCCESS,
 			payload: createdTask,
 		});
-	} catch (error: any) {
+	} catch (error) {
+		console.error(error);
 		dispatch({
 			type: TaskActions.ADD_NEW_TASK_FAILURE,
-			payload: error.message || "Failed to add task",
+			payload: "Failed to add task",
 		});
 	}
 };
