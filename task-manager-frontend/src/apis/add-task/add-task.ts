@@ -1,7 +1,8 @@
-import { TaskRequestType } from "../../types";
+import { BASE_URL } from "../../constants";
+import { TaskType } from "../../types";
 
-export const addTask = async (newTask: TaskRequestType) => {
-	const url = "http://localhost:3001/tasks";
+export const addTask = async (newTask: TaskType) => {
+	const url = `${BASE_URL}/tasks`;
 	try {
 		const res = await fetch(url, {
 			method: "POST",

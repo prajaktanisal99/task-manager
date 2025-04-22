@@ -1,9 +1,9 @@
 // task-context/actions/addTaskAction.ts
 import { addTask } from "../../../apis";
-import { TaskRequestType, TaskType } from "../../../types";
+import { TaskType } from "../../../types";
 import { TaskActionType, TaskActions } from "../../task-context";
 
-export const addTaskAction = async (task: TaskRequestType, dispatch: React.Dispatch<TaskActionType>) => {
+export const addTaskAction = async (task: TaskType, dispatch: React.Dispatch<TaskActionType>) => {
 	try {
 		dispatch({ type: TaskActions.ADD_NEW_TASK });
 		const createdTask: TaskType = await addTask(task);

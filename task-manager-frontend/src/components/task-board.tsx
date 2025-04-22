@@ -18,20 +18,24 @@ export const TaskBoard = () => {
 		loadData();
 	}, []);
 
-	if (isFetchingTasks) {
-		<div>Loading</div>;
-	}
-
 	return (
-		<div className="task-board-container">
-			<h1 className="task-board-title">Task Board</h1>
-			<TaskActionBar />
-			<div className="task-board">
-				{getFilteredTasks(searchKey, selectedPriority, columns).map((column) => (
-					<TaskColumn key={column.id} column={column} />
-				))}
+		<div>
+			<div className="task-board-container">
+				<h1 className="task-board-title">Task Board</h1>
+				<TaskActionBar />
+				{isFetchingTasks ? (
+					<div>Loading...</div>
+				) : (
+					<div className="task-board-columns">
+						{getFilteredTasks(searchKey, selectedPriority, columns).map(
+							(column) => (
+								<TaskColumn key={column.id} column={column} />
+							)
+						)}
+					</div>
+				)}
+				{showAddTask && <AddUpdateTask />}
 			</div>
-			{showAddTask && <AddUpdateTask />}
 		</div>
 	);
 };
