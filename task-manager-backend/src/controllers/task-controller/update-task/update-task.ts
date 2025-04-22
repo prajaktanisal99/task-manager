@@ -1,9 +1,9 @@
 import type { Request, Response } from "express";
-import { Task } from "../../../models/index.ts";
-import { logger } from "../../../utils/index.ts";
-import type { TaskRequestType } from "../../../types/index.ts";
-import { ORDER_INCREMENT, TaskUpdateAction } from "../../../constants/index.ts";
-import { validateUpdateAction } from "./utils/validate-update-action.ts";
+import { Task } from "../../../models/index.js";
+import { logger } from "../../../utils/index.js";
+import type { TaskRequestType } from "../../../types/index.js";
+import { ORDER_INCREMENT, TaskUpdateAction } from "../../../constants/index.js";
+import { validateUpdateAction } from "./utils/validate-update-action.js";
 
 export const updateTask = async (req: Request, res: Response): Promise<any> => {
 	try {

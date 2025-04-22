@@ -1,2 +1,2 @@
-export { requestLogger } from "./request-logger.ts";
-export { configuredCORS } from "./allow-cors.ts";
+export { requestLogger } from "./request-logger.js";
+export { configuredCORS } from "./allow-cors.js";

@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 
-import { Task } from "../../../models/index.ts";
-import { logger } from "../../../utils//index.ts";
+import { Task } from "../../../models/index.js";
+import { logger } from "../../../utils//index.js";
 
 export const deleteTask = async (req: Request, res: Response): Promise<any> => {
 	try {

@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
 		"target": "ES2020",
-		"module": "ESNext",
-		"moduleResolution": "node",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
 		"outDir": "./dist",
@@ -10,9 +10,7 @@
 		"strict": true,
 		"baseUrl": ".",
 		"resolveJsonModule": true,
-		"forceConsistentCasingInFileNames": true,
-		"allowImportingTsExtensions": true,
-		"noEmit": true
+		"forceConsistentCasingInFileNames": true
 	},
 	"include": ["src/**/*"],
 	"ts-node": { "esm": true }

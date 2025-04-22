@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { TaskUpdateAction } from "../../../../constants/index.ts";
+import { TaskUpdateAction } from "../../../../constants/index.js";
 
 export const validateUpdateAction = (req: Request, res: Response): void => {
 	const action = req?.query?.action as string;

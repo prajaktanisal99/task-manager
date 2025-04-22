@@ -1,1 +1,1 @@
-export * from "./delete-task.ts";
+export * from "./delete-task.js";

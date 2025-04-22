@@ -1,9 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
-import { connectDatabase } from "./db/index.ts";
-import { taskRouter } from "./routes/index.ts";
-import { requestLogger, configuredCORS } from "./middlewares/index.ts";
-import { setLogLevel } from "./utils/logger.ts";
+import { connectDatabase } from "./db/index.js";
+import { taskRouter } from "./routes/index.js";
+import { requestLogger, configuredCORS } from "./middlewares/index.js";
+import { setLogLevel } from "./utils/logger.js";
 
 dotenv.config();
 

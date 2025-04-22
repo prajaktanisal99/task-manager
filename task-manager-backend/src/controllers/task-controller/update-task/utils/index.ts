@@ -1,1 +1,1 @@
-export * from "./validate-update-action.ts";
+export * from "./validate-update-action.js";

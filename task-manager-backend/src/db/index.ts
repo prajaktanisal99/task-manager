@@ -1,1 +1,1 @@
-export { connectDatabase } from "./connect.ts";
+export { connectDatabase } from "./connect.js";

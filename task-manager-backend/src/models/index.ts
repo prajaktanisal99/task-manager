@@ -1,1 +1,1 @@
-export * from "./task-model.ts";
+export * from "./task-model.js";

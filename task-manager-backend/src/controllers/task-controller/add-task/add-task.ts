@@ -1,10 +1,10 @@
 import type { Request, Response } from "express";
 import mongoose from "mongoose";
 
-import { Task } from "../../../models/index.ts";
-import { TaskPriority, TaskStatus } from "../../../types/index.ts";
-import { logger } from "../../../utils/index.ts";
-import { ORDER_INCREMENT } from "../../../constants/index.ts";
+import { Task } from "../../../models/index.js";
+import { TaskPriority, TaskStatus } from "../../../types/index.js";
+import { logger } from "../../../utils/index.js";
+import { ORDER_INCREMENT } from "../../../constants/index.js";
 
 export const createTask = async (req: Request, res: Response): Promise<any> => {
 	try {
