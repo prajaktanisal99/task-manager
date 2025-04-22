@@ -11,6 +11,10 @@ export enum TaskStatus {
 	DONE = "done",
 }
 
+export enum TaskUpdateAction {
+	REORDER = "reorder",
+	EDIT = "edit",
+}
 export interface TaskType {
 	_id: string;
 	title: string;
@@ -18,15 +22,9 @@ export interface TaskType {
 	priority: TaskPriority;
 	status?: TaskStatus;
 	dueDate: string;
-}
-
-export interface TaskRequestType {
-	_id: string;
-	title: string;
-	description: string;
-	priority: TaskPriority;
-	status?: TaskStatus;
-	dueDate: Date;
+	order?: number;
+	previousTaskId?: string;
+	nextTaskId?: string;
 }
 
 export interface TaskColumnType {
@@ -35,16 +33,8 @@ export interface TaskColumnType {
 	tasks: Array<TaskType>;
 }
 
-export interface TaskResponseType {
-	_id: string;
-	title: string;
-	description: string;
-	priority: TaskPriority;
-	status: TaskStatus;
-	date: string;
-}
-
 export interface TaskState {
+	isFetchingTasks: boolean;
 	columns: Array<TaskColumnType>;
 	selectedPriority: TaskPriority;
 	searchKey: string;

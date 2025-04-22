@@ -1,8 +1,12 @@
-import { TaskRequestType } from "../../types";
+import { BASE_URL } from "../../constants";
+import { QueryParams, TaskType } from "../../types";
 
-export const updateTask = async (taskData: TaskRequestType) => {
-	const url = `http://localhost:3001/tasks/${taskData._id}`;
+export const updateTask = async (taskData: TaskType, query: QueryParams = {}) => {
+	let url = `${BASE_URL}/tasks/${taskData._id}`;
 	try {
+		if (query?.action) {
+			url += `?action=${query?.action}`;
+		}
 		const res = await fetch(url, {
 			method: "PUT",
 			headers: {

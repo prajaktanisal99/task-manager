@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { TaskPriority, TaskStatus, TaskRequestType } from "../types";
+import { TaskPriority, TaskStatus, TaskType, TaskUpdateAction } from "../types";
 
 import { TaskContext } from "../context";
 import { getFormattedDate } from "../utils";
@@ -14,7 +14,6 @@ export const AddUpdateTask = () => {
 
 	useEffect(() => {
 		if (editTask && taskToEdit) {
-			console.log("Editing task:", taskToEdit);
 			setTitle(taskToEdit?.title);
 			setDescription(taskToEdit?.description);
 			setPriority(taskToEdit?.priority);
@@ -23,21 +22,20 @@ export const AddUpdateTask = () => {
 	}, []);
 
 	const handleSubmit = async () => {
-		const taskData: TaskRequestType = {
-			_id: editTask ? taskToEdit?._id ?? "" : "",
+		const taskData: TaskType = {
+			_id: editTask ? (taskToEdit?._id ?? "") : "",
 			title,
 			description,
 			priority,
-			dueDate: new Date(dueDate),
-			status: taskToEdit?.status ?? TaskStatus.TO_DO,
+			dueDate: new Date(dueDate).toISOString(),
+			status: editTask ? taskToEdit?.status : TaskStatus.TO_DO,
 		};
 
-		editTask ? updateTask(taskData) : addNewTask(taskData);
+		editTask ? await updateTask(taskData, { action: TaskUpdateAction.EDIT }) : await addNewTask(taskData);
 		toggleAddTask();
-		getAllTasks();
+		await getAllTasks();
 	};
 
-	console.log(dueDate);
 	return (
 		<div className="add-task-container">
 			<div className="add-task-content">
@@ -86,7 +84,7 @@ export const AddUpdateTask = () => {
 					</div>
 				</div>
 
-				<div className="add-task-buttons">
+				<div className="add-task-action-buttons">
 					<button className="add-task-button-cancel" onClick={() => toggleAddTask()}>
 						Cancel
 					</button>

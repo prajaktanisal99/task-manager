@@ -1,5 +1,5 @@
 import { createContext, useReducer } from "react";
-import { TaskColumnType, TaskPriority, TaskState, TaskType, TaskRequestType } from "../types";
+import { QueryParams, TaskColumnType, TaskPriority, TaskState, TaskType } from "../types";
 import { taskReducer } from "../reducer";
 import { addTaskAction, updateTaskAction, getAllTasksAction, deleteTaskAction } from "./actions";
 
@@ -63,8 +63,8 @@ interface TaskContextType {
 	setEditTask: (editTask: boolean) => void;
 	setTaskToEdit: (task?: TaskType) => void;
 	getAllTasks: () => Promise<void>;
-	addNewTask: (task: TaskRequestType) => Promise<void>;
-	updateTask: (task: TaskRequestType) => Promise<void>;
+	addNewTask: (task: TaskType) => Promise<void>;
+	updateTask: (task: TaskType, query: QueryParams) => Promise<void>;
 	deleteTask: (taskId: string) => Promise<void>;
 }
 
@@ -72,6 +72,7 @@ export const TaskContext = createContext<TaskContextType>({} as TaskContextType)
 
 export const initialTaskState: TaskState = {
 	columns: [],
+	isFetchingTasks: false,
 	selectedPriority: TaskPriority.ALL,
 	searchKey: "",
 	showAddTask: false,
@@ -83,9 +84,9 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
 	const [state, dispatch] = useReducer(taskReducer, initialTaskState);
 
 	// Actions
-	const addNewTask = (task: TaskRequestType) => addTaskAction(task, dispatch);
+	const addNewTask = (task: TaskType) => addTaskAction(task, dispatch);
 	const getAllTasks = () => getAllTasksAction(dispatch);
-	const updateTask = (task: TaskRequestType) => updateTaskAction(task, dispatch);
+	const updateTask = (task: TaskType, query: QueryParams) => updateTaskAction(task, dispatch, query);
 	const deleteTask = (taskId: string) => deleteTaskAction(taskId, dispatch);
 
 	const setColumns = (columns: Array<TaskColumnType>) => {
@@ -116,7 +117,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<TaskContext.Provider
 			value={{
-				isFetchingTasks: false,
+				isFetchingTasks: state?.isFetchingTasks,
 				columns: state.columns,
 				selectedPriority: state.selectedPriority,
 				searchKey: state.searchKey,

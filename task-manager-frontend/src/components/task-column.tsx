@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { TaskColumnType, TaskRequestType } from "../types";
+import { TaskColumnType, TaskUpdateAction } from "../types";
 import { TaskCard } from "./task-card";
 import { TaskContext } from "../context";
 
@@ -8,9 +8,9 @@ interface TaskColumnProps {
 }
 
 export const TaskColumn = ({ column }: TaskColumnProps) => {
-	const { columns, setColumns, updateTask } = useContext(TaskContext);
+	const { columns, updateTask, getAllTasks } = useContext(TaskContext);
 
-	const dropHandler = (ev: React.DragEvent) => {
+	const dropHandler = async (ev: React.DragEvent) => {
 		ev.preventDefault();
 		const taskId = ev.dataTransfer.getData("taskId");
 		const fromColumnId = ev.dataTransfer.getData("columnId");
@@ -32,6 +32,8 @@ export const TaskColumn = ({ column }: TaskColumnProps) => {
 		const taskElements = Array.from(document.querySelectorAll(`#${column.id} .task-card-container`));
 
 		let insertAt = toColumn.tasks.length;
+		const currentIndex = fromColumn.tasks.findIndex((t) => t._id == taskId);
+
 		for (let i = 0; i < taskElements.length; i++) {
 			const box = taskElements[i].getBoundingClientRect();
 			if (dropY < box.top + box.height / 2) {
@@ -46,35 +48,46 @@ export const TaskColumn = ({ column }: TaskColumnProps) => {
 
 		const updatedToTasks = fromColumnId === toColumn.id ? updatedFromTasks.slice() : toColumn.tasks.slice();
 
-		updatedToTasks.splice(insertAt, 0, task);
-
-		const updatedColumns = columns.map((col) => {
-			if (col.id === toColumn.id) {
-				return { ...col, tasks: updatedToTasks };
-			}
-			if (col.id === fromColumn.id) {
-				return { ...col, tasks: updatedFromTasks };
-			}
-			return col;
-		});
-
-		if (fromColumnId !== toColumn.id) {
-			console.log("fromColumn", fromColumn.id);
-			console.log("toColumn", toColumn.id);
-			console.log("task", task);
-			const newTask = { ...task, status: toColumn.id };
-			updateTask(newTask as unknown as TaskRequestType);
+		if (fromColumnId === column.id && currentIndex === insertAt) {
+			return;
 		}
-		setColumns(updatedColumns);
+
+		if (fromColumnId === column.id && currentIndex < insertAt) {
+			insertAt -= 1;
+		}
+		updatedToTasks.splice(insertAt, 0, task);
+		const newTask = { ...task, status: toColumn.id };
+		await updateTask(
+			{
+				...newTask,
+				previousTaskId: updatedToTasks?.[insertAt - 1]?._id,
+				nextTaskId: updatedToTasks?.[insertAt + 1]?._id,
+			},
+			{ action: TaskUpdateAction.REORDER }
+		);
+		await getAllTasks();
 	};
 
 	const dragOverHandler = (ev: React.DragEvent) => {
 		ev.preventDefault();
 		ev.dataTransfer.dropEffect = "move";
+		const column = ev.currentTarget as HTMLElement;
+		column.classList.add("drag-over");
+	};
+
+	const dragLeaveHandler = (ev: React.DragEvent) => {
+		const column = ev.currentTarget as HTMLElement;
+		column.classList.remove("drag-over");
 	};
 
 	return (
-		<div className="task-column-container" id={column.id} onDrop={dropHandler} onDragOver={dragOverHandler}>
+		<div
+			className="task-column-container"
+			id={column.id}
+			onDrop={dropHandler}
+			onDragOver={dragOverHandler}
+			onDragLeave={dragLeaveHandler}
+		>
 			<p className="task-column-title">
 				{column.title} <span className="task-column-count">({column?.tasks.length})</span>
 			</p>

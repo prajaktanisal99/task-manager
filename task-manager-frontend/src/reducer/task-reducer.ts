@@ -41,11 +41,10 @@ export const taskReducer = (state: TaskState, action: TaskActionType) => {
 				...state,
 				isFetchingTasks: true,
 			};
-
 		case TaskActions.GET_ALL_TASKS_SUCCESS:
 			return {
 				...state,
-				isFetchinTasks: false,
+				isFetchingTasks: false,
 				columns: action.payload,
 			};
 		case TaskActions.GET_ALL_TASKS_FAILURE:

@@ -25,11 +25,14 @@ export const TaskCard = ({ task, columnId, index }: TaskCardProps) => {
 
 	const dragEndHandler = (ev: React.DragEvent) => {
 		ev.currentTarget.classList.remove("dragging");
+		document.querySelectorAll(".task-column-container").forEach((col) => {
+			col.classList.remove("drag-over");
+		});
 	};
 
 	const handleTaskDelete = async (taskId: string) => {
-		deleteTask(taskId);
-		getAllTasks();
+		await deleteTask(taskId);
+		await getAllTasks();
 	};
 
 	return (

@@ -1,13 +1,16 @@
 import { updateTask } from "../../../apis";
-import { TaskRequestType } from "../../../types";
+import { QueryParams, TaskType } from "../../../types";
 import { TaskActionType, TaskActions } from "../../task-context";
 
-export const updateTaskAction = async (task: TaskRequestType, dispatch: React.Dispatch<TaskActionType>) => {
+export const updateTaskAction = async (
+	task: TaskType,
+	dispatch: React.Dispatch<TaskActionType>,
+	query: QueryParams = {}
+) => {
 	try {
 		dispatch({ type: TaskActions.UPDATE_TASK });
 
-		const updatedTask = await updateTask(task);
-		console.log(updatedTask);
+		const updatedTask = await updateTask(task, query);
 		dispatch({
 			type: TaskActions.UPDATE_TASK_SUCCESS,
 		});
