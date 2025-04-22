@@ -4,16 +4,14 @@ import mongoose from "mongoose";
 import { Task } from "../../../models/index.ts";
 import { TaskPriority, TaskStatus } from "../../../types/index.ts";
 import { logger } from "../../../utils/index.ts";
+import { ORDER_INCREMENT } from "../../../constants/index.ts";
 
 export const createTask = async (req: Request, res: Response): Promise<any> => {
 	try {
-		const { title, description, status, priority, dueDate } =
-			req.body;
+		const { title, description, status, priority, dueDate } = req.body;
 
 		if (!title || typeof title !== "string" || !title.trim()) {
-			logger.error(
-				"Required Field : Title missing or invalid"
-			);
+			logger.error("Required Field : Title missing or invalid");
 			return res.status(400).json({
 				status: false,
 				message: "Task title is required.",
@@ -33,12 +31,15 @@ export const createTask = async (req: Request, res: Response): Promise<any> => {
 			});
 		}
 
+		const maxOrderTask = await Task.findOne({ status: status || TaskStatus.TODO }).sort({ order: -1 });
+
 		const newTask = new Task({
 			title: title.trim(),
 			description: description?.trim() || "",
 			status: status || TaskStatus.TODO,
 			priority: priority || TaskPriority.LOW,
 			dueDate: dueDate ? new Date(dueDate) : new Date(),
+			order: (maxOrderTask?.order || 0) + ORDER_INCREMENT,
 		});
 
 		const savedTask = await newTask.save();

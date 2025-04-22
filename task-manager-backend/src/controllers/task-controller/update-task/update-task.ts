@@ -2,9 +2,13 @@ import type { Request, Response } from "express";
 import { Task } from "../../../models/index.ts";
 import { logger } from "../../../utils/index.ts";
 import type { TaskRequestType } from "../../../types/index.ts";
+import { ORDER_INCREMENT, TaskUpdateAction } from "../../../constants/index.ts";
+import { validateUpdateAction } from "./utils/validate-update-action.ts";
 
 export const updateTask = async (req: Request, res: Response): Promise<any> => {
 	try {
+		validateUpdateAction(req, res);
+
 		const taskId = req.params.id;
 		const updatePayload: TaskRequestType = req.body;
 
@@ -21,9 +25,48 @@ export const updateTask = async (req: Request, res: Response): Promise<any> => {
 		if (!updatePayload?.title) {
 			return res.status(400).json({ status: false, message: "Bad Request. Title missing." });
 		}
+		let payload;
+		if (req?.query?.action === TaskUpdateAction.EDIT) {
+			payload = { ...updatePayload };
+		} else {
+			let newOrder: number;
+			let prevTaskId = updatePayload?.previousTaskId;
+			let nextTaskId = updatePayload?.nextTaskId;
+			if (!prevTaskId && !nextTaskId) {
+				// No reordering needed
+				newOrder = updatePayload?.order || ORDER_INCREMENT;
+			} else if (!prevTaskId) {
+				// Moving to start
+				const nextTask = await Task.findById(nextTaskId);
+				newOrder = nextTask?.order ? nextTask.order / 2 : ORDER_INCREMENT;
+			} else if (!nextTaskId) {
+				// Moving to end
+				const prevTask = await Task.findById(prevTaskId);
+				newOrder = prevTask?.order ? prevTask.order + ORDER_INCREMENT : ORDER_INCREMENT;
+			} else {
+				// Moving between tasks
+				const [prevTask, nextTask] = await Promise.all([
+					Task.findById(prevTaskId),
+					Task.findById(nextTaskId),
+				]);
 
-		const updatedTask = await Task.findByIdAndUpdate(taskId, updatePayload, { new: true });
+				if (prevTask && nextTask) {
+					newOrder = prevTask.order + (nextTask.order - prevTask.order) / 2;
+				} else {
+					newOrder = ORDER_INCREMENT;
+				}
+			}
 
+			payload = { ...updatePayload, order: newOrder };
+		}
+
+		const updatedTask = await Task.findByIdAndUpdate(
+			taskId,
+			{ ...payload },
+			{
+				new: true,
+			}
+		);
 		if (!updatedTask) {
 			logger.warn(`Task with ID ${taskId} not found`);
 			return res.status(404).json({

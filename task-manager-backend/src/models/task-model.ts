@@ -30,7 +30,7 @@ const taskSchema = new mongoose.Schema({
 		default: "todo",
 	},
 	date: { type: Date, default: Date.now },
-	order: Number,
+	order: { type: Number, required: true },
 });
 
 export const Task = mongoose.model("Task", taskSchema);

@@ -5,8 +5,7 @@ import { logger } from "../../../utils/index.ts";
 
 export const getTasks = async (req: Request, res: Response): Promise<any> => {
 	try {
-		const tasks = await Task.find();
-
+		const tasks = await Task.find().sort({ order: 1 });
 		logger.info(`Fetched ${tasks.length} task(s)`);
 		return res.status(200).json(tasks);
 	} catch (error) {

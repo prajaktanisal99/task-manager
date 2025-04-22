@@ -20,4 +20,7 @@ export interface TaskRequestType {
 	priority: TaskPriorityType;
 	status?: TaskStatusType;
 	dueDate: Date;
+	order: number;
+	previousTaskId?: string;
+	nextTaskId?: string;
 }
