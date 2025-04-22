@@ -1,4 +1,3 @@
-import type { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import type { CorsOptions } from "cors";
 
@@ -7,6 +6,8 @@ const allowedOriginsDev = allowedOriginsEnv
 	.split(",")
 	.map((origin) => origin.trim())
 	.filter(Boolean);
+
+const allowedOriginsProd = ["https://task-manager-frontend-0prx.onrender.com"];
 
 if (process.env.NODE_ENV !== "production") {
 	const devOrigins = ["http://localhost:5173"];
@@ -17,13 +18,15 @@ if (process.env.NODE_ENV !== "production") {
 	});
 }
 
+const allowedOrigins = process.env.NODE_ENV === "production" ? allowedOriginsProd : allowedOriginsDev;
+
 const corsOptions: CorsOptions = {
 	origin: (origin, callback) => {
 		if (!origin) {
 			return callback(null, true);
 		}
 
-		if (allowedOriginsDev.indexOf(origin) === -1) {
+		if (allowedOrigins.indexOf(origin) === -1) {
 			const message = `The CORS policy for this site does not allow access from the specified origin: ${origin}`;
 			return callback(new Error(message), true);
 		}
