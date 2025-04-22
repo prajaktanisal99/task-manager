@@ -1,23 +1,38 @@
 import type { NextFunction, Request, Response } from "express";
+import cors from "cors";
+import type { CorsOptions } from "cors";
 
-const allowedOrigins = ["http://localhost:5173", "http://11.29.216.242:5173"];
+const allowedOriginsEnv = process.env.ALLOWED_ORIGINS || "";
+const allowedOriginsDev = allowedOriginsEnv
+	.split(",")
+	.map((origin) => origin.trim())
+	.filter(Boolean);
 
-export const allowCors = (req: Request, res: Response, next: NextFunction) => {
-	const origin = req.headers.origin;
+if (process.env.NODE_ENV !== "production") {
+	const devOrigins = ["http://localhost:5173"];
+	devOrigins.forEach((devOrigin) => {
+		if (!allowedOriginsDev.includes(devOrigin)) {
+			allowedOriginsDev.push(devOrigin);
+		}
+	});
+}
 
-	// Always set CORS headers
-	res.setHeader("Access-Control-Allow-Origin", origin && allowedOrigins.includes(origin) ? origin : "");
+const corsOptions: CorsOptions = {
+	origin: (origin, callback) => {
+		if (!origin) {
+			return callback(null, true);
+		}
 
-	res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+		if (allowedOriginsDev.indexOf(origin) === -1) {
+			const message = `The CORS policy for this site does not allow access from the specified origin: ${origin}`;
+			return callback(new Error(message), true);
+		}
 
-	res.setHeader("Content-Type", "application/json");
-
-	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-	// Important: must return here to prevent further execution
-	if (req.method === "OPTIONS") {
-		res.sendStatus(204);
-	}
-
-	next();
+		return callback(null, true);
+	},
+	methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+	allowedHeaders: ["Content-Type", "Authorization"],
+	credentials: true,
 };
+
+export const configuredCORS = cors(corsOptions);
