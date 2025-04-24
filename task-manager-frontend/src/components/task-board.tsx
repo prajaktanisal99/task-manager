@@ -7,7 +7,7 @@ import { AddUpdateTask } from "./add-update-task";
 import { TaskContext } from "../context";
 
 export const TaskBoard = () => {
-	const { isFetchingTasks, columns, searchKey, selectedPriority, showAddTask, getAllTasks } =
+	const { isFetchingTasks, dueByDate, columns, searchKey, selectedPriority, showAddTask, getAllTasks } =
 		useContext(TaskContext);
 
 	useEffect(() => {
@@ -27,7 +27,7 @@ export const TaskBoard = () => {
 					<div>Loading...</div>
 				) : (
 					<div className="task-board-columns">
-						{getFilteredTasks(searchKey, selectedPriority, columns).map(
+						{getFilteredTasks(columns, searchKey, selectedPriority, dueByDate).map(
 							(column) => (
 								<TaskColumn key={column.id} column={column} />
 							)

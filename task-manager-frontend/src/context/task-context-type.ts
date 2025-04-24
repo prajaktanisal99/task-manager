@@ -7,6 +7,7 @@ export enum TaskActions {
 	TOGGLE_ADD_TASK = "TOGGLE_ADD_TASK",
 	SET_EDIT_TASK = "SET_EDIT_TASK",
 	SET_TASK_TO_EDIT = "SET_TASK_TO_EDIT",
+	SET_DUE_BY_DATE = "DUE_BY_DATE",
 
 	ADD_NEW_TASK = "ADD_NEW_TASK",
 	ADD_NEW_TASK_SUCCESS = "ADD_NEW_TASK_SUCCESS",
@@ -43,13 +44,15 @@ export type TaskActionType =
 	| { type: TaskActions.UPDATE_TASK_FAILURE }
 	| { type: TaskActions.GET_ALL_TASKS }
 	| { type: TaskActions.GET_ALL_TASKS_SUCCESS; payload: Array<TaskColumnType> }
-	| { type: TaskActions.GET_ALL_TASKS_FAILURE };
+	| { type: TaskActions.GET_ALL_TASKS_FAILURE }
+	| { type: TaskActions.SET_DUE_BY_DATE; payload?: string };
 
 export interface TaskContextType {
 	isFetchingTasks: boolean;
 	columns: Array<TaskColumnType>;
 	selectedPriority: TaskPriority;
 	searchKey: string;
+	dueByDate?: string;
 	showAddTask: boolean;
 	editTask: boolean;
 	taskToEdit?: TaskType;
@@ -59,6 +62,7 @@ export interface TaskContextType {
 	toggleAddTask: () => void;
 	setEditTask: (editTask: boolean) => void;
 	setTaskToEdit: (task?: TaskType) => void;
+	setDueByDate: (dueByDate?: string) => void;
 	getAllTasks: () => Promise<void>;
 	addNewTask: (task: TaskType) => Promise<void>;
 	updateTask: (task: TaskType, query: QueryParams) => Promise<void>;

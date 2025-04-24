@@ -40,10 +40,14 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
 	const setTaskToEdit = (task?: TaskType) => {
 		dispatch({ type: TaskActions.SET_TASK_TO_EDIT, payload: task });
 	};
+	const setDueByDate = (dueByDate?: string) => {
+		dispatch({ type: TaskActions.SET_DUE_BY_DATE, payload: dueByDate });
+	};
 
 	return (
 		<TaskContext.Provider
 			value={{
+				dueByDate: state?.dueByDate,
 				isFetchingTasks: state?.isFetchingTasks,
 				columns: state.columns,
 				selectedPriority: state.selectedPriority,
@@ -58,6 +62,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
 				toggleAddTask,
 				setEditTask,
 				setTaskToEdit,
+				setDueByDate,
 				getAllTasks,
 				updateTask,
 				deleteTask,

@@ -1,10 +1,10 @@
-import { TaskResponseType, TaskColumnType, TaskStatus, TaskType, TaskPriority } from "../../types";
+import { TaskColumnType, TaskStatus, TaskType, TaskPriority } from "../../types";
 import { getColumnTitle } from "../get-column-title";
 
-export const transformTasksToColumns = (tasks: Array<TaskResponseType>): Array<TaskColumnType> => {
+export const transformTasksToColumns = (tasks: Array<TaskType>): Array<TaskColumnType> => {
 	const tasksByStatus = new Map<TaskStatus, Array<TaskType>>();
 
-	tasks.forEach((rawTask: TaskResponseType) => {
+	tasks.forEach((rawTask: TaskType) => {
 		const status = rawTask.status as TaskStatus;
 		const priority = rawTask.priority as TaskPriority;
 
@@ -24,7 +24,7 @@ export const transformTasksToColumns = (tasks: Array<TaskResponseType>): Array<T
 			description: rawTask.description || "",
 			priority,
 			status,
-			dueDate: rawTask?.date,
+			dueDate: rawTask?.dueDate,
 		};
 
 		if (!tasksByStatus.has(status)) {

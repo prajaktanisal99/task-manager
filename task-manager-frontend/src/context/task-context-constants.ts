@@ -8,4 +8,5 @@ export const initialTaskState: TaskState = {
 	showAddTask: false,
 	editTask: false,
 	taskToEdit: undefined,
+	dueByDate: undefined,
 };

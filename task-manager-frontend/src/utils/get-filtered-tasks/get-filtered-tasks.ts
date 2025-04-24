@@ -1,20 +1,26 @@
 import { TaskPriority, TaskColumnType } from "../../types";
 
 export const getFilteredTasks = (
+	columns: Array<TaskColumnType>,
 	searchKey: string,
 	priority: TaskPriority,
-	columns: Array<TaskColumnType>
+	dueByDate?: string
 ): Array<TaskColumnType> => {
 	const regex = new RegExp(searchKey, "i");
+
+	const dueBy = dueByDate ? new Date(dueByDate + "T00:00:00Z") : null;
+
 	const filteredTasks = columns.map((column) => {
 		const filteredTask = column?.tasks?.filter((task) => {
-			const matchesPriority =
-				priority === task.priority ||
-				priority === TaskPriority.ALL;
-			const matchesSearch =
-				regex.test(task?.title) ||
-				regex.test(task?.description);
-			return matchesPriority && matchesSearch ? task : null;
+			const matchesPriority = priority === task.priority || priority === TaskPriority.ALL;
+
+			const matchesSearch = regex.test(task?.title) || regex.test(task?.description);
+
+			const taskDueDate = new Date(task?.dueDate);
+
+			const matchesDueByDate = !dueBy || taskDueDate <= dueBy;
+
+			return matchesPriority && matchesSearch && matchesDueByDate;
 		});
 		return { ...column, tasks: filteredTask };
 	});

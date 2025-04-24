@@ -41,4 +41,5 @@ export interface TaskState {
 	showAddTask: boolean;
 	editTask: boolean;
 	taskToEdit?: TaskType;
+	dueByDate?: string;
 }

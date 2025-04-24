@@ -3,8 +3,16 @@ import { TaskContext } from "../context";
 import { useContext } from "react";
 
 export const TaskActionBar = () => {
-	const { searchKey, setSearchKey, selectedPriority, setEditTask, setSelectedPriority, toggleAddTask } =
-		useContext(TaskContext);
+	const {
+		dueByDate,
+		searchKey,
+		setSearchKey,
+		selectedPriority,
+		setEditTask,
+		setSelectedPriority,
+		toggleAddTask,
+		setDueByDate,
+	} = useContext(TaskContext);
 
 	return (
 		<div className="task-action-bar">
@@ -16,6 +24,18 @@ export const TaskActionBar = () => {
 			></input>
 
 			<div className="task-action-buttons">
+				<div className="task-action-dates">
+					<div className="task-action-dates-label">
+						<label>Due by</label>
+					</div>
+					<div>
+						<input
+							type="date"
+							value={dueByDate}
+							onChange={(e) => setDueByDate(e.target.value)}
+						/>
+					</div>
+				</div>
 				<select
 					value={selectedPriority}
 					onChange={(e) => setSelectedPriority(e.target.value as TaskPriority)}

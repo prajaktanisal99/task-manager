@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { TaskPriority, TaskStatus, TaskType, TaskUpdateAction } from "../types";
 
 import { TaskContext } from "../context";
-import { getFormattedDate } from "../utils";
 
 export const AddUpdateTask = () => {
 	const { editTask, taskToEdit, toggleAddTask, addNewTask, updateTask, getAllTasks } = useContext(TaskContext);
@@ -17,7 +16,7 @@ export const AddUpdateTask = () => {
 			setTitle(taskToEdit?.title);
 			setDescription(taskToEdit?.description);
 			setPriority(taskToEdit?.priority);
-			setDueDate(getFormattedDate(taskToEdit?.dueDate));
+			setDueDate(taskToEdit?.dueDate?.split("T")[0] ?? dueDate);
 		}
 	}, []);
 
@@ -27,7 +26,7 @@ export const AddUpdateTask = () => {
 			title,
 			description,
 			priority,
-			dueDate: new Date(dueDate).toISOString(),
+			dueDate,
 			status: editTask ? taskToEdit?.status : TaskStatus.TO_DO,
 		};
 
@@ -81,7 +80,8 @@ export const AddUpdateTask = () => {
 						<input
 							id="due-date"
 							type="date"
-							value={dueDate}
+							min={new Date().toISOString().split("T")[0]}
+							value={dueDate || new Date().toISOString().split("T")[0]}
 							placeholder="Due Date"
 							onChange={(e) => setDueDate(e.target.value)}
 						/>

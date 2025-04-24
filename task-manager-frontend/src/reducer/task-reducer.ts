@@ -33,6 +33,11 @@ export const taskReducer = (state: TaskState, action: TaskActionType) => {
 				...state,
 				taskToEdit: action.payload,
 			};
+		case TaskActions.SET_DUE_BY_DATE:
+			return {
+				...state,
+				dueByDate: action.payload,
+			};
 		case TaskActions.GET_ALL_TASKS:
 		case TaskActions.ADD_NEW_TASK:
 		case TaskActions.UPDATE_TASK:
