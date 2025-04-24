@@ -148,14 +148,20 @@ textarea {
 .task-card-actions {
 	display: flex;
 	align-items: center;
-	gap: 0.4rem;
+	gap: 0.6rem;
 }
 
 .task-card-delete {
 	color: #ff7070;
+	cursor: pointer;
+	padding-left: 0.4rem;
 }
 
-.task-card-edit,
+.task-card-edit {
+	cursor: pointer;
+	color: #838383;
+}
+
 .task-card-drag-icon {
 	color: #838383;
 }
@@ -185,6 +191,17 @@ textarea {
 	gap: 0.5rem;
 }
 
+.task-action-dates {
+	display: flex;
+	flex-direction: row;
+}
+
+.task-action-dates-label {
+	width: 3rem;
+	align-self: center;
+	font-size: 0.8rem;
+}
+
 .task-search-input {
 	width: 50%;
 	border: 0.8px solid #dfdede;
@@ -201,6 +218,7 @@ textarea {
 	cursor: pointer;
 	font-size: 0.6rem;
 	width: 100%;
+	min-width: 5rem;
 	transition: background-color 0.2s ease;
 }
 
