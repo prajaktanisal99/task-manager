@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { TaskType } from "../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGripVertical, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { getFormattedDate } from "../utils";
+import { getFormattedDate, capitalizeFirstLetter } from "../utils";
 import { TaskContext } from "../context";
 import { AddUpdateTask } from "./add-update-task";
 
@@ -55,26 +55,28 @@ export const TaskCard = ({ task, columnId, index }: TaskCardProps) => {
 					<p
 						className={`task-card-priority task-card-priority-${task.priority.toLowerCase()}`}
 					>
-						{task.priority}
+						{capitalizeFirstLetter(task.priority)}
 					</p>
 				</div>
 				<div className="task-card-actions">
-					<FontAwesomeIcon
-						className="task-card-edit"
-						icon={faPen}
-						size="xs"
-						onClick={() => {
-							setEditTask(true);
-							setTaskToEdit(task);
-							toggleAddTask();
-						}}
-					/>
-					<FontAwesomeIcon
-						onClick={() => handleTaskDelete(task._id)}
-						className="task-card-delete"
-						icon={faTrash}
-						size="xs"
-					/>
+					<div className="task-card-edit">
+						<FontAwesomeIcon
+							icon={faPen}
+							size="xs"
+							onClick={() => {
+								setEditTask(true);
+								setTaskToEdit(task);
+								toggleAddTask();
+							}}
+						/>
+					</div>
+					<div className="task-card-delete">
+						<FontAwesomeIcon
+							onClick={() => handleTaskDelete(task._id)}
+							icon={faTrash}
+							size="xs"
+						/>
+					</div>
 				</div>
 			</div>
 

@@ -21,7 +21,7 @@ export const updateTask = async (taskData: TaskType, query: QueryParams = {}) =>
 
 		return await res.json();
 	} catch (error) {
-		console.error("Error updating task:", error);
+		console.error("Error updating task ", error);
 		throw error;
 	}
 };

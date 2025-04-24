@@ -9,9 +9,7 @@ export const updateTaskAction = async (
 ) => {
 	try {
 		dispatch({ type: TaskActions.UPDATE_TASK });
-
-		const updatedTask = await updateTask(task, query);
-		console.log(updatedTask);
+		await updateTask(task, query);
 		dispatch({
 			type: TaskActions.UPDATE_TASK_SUCCESS,
 		});
