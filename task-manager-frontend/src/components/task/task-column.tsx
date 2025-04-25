@@ -42,19 +42,23 @@ export const TaskColumn = ({ column }: TaskColumnProps) => {
 			}
 		}
 
+		// Return early if the task is pulled down at the same index in same column
 		if (fromColumnId === column.id && insertAt > 0 && toColumn.tasks[insertAt - 1]?._id === taskId) {
+			return;
+		}
+
+		// Return early if the task is pulled up at the same index in same column
+		if (fromColumnId === column.id && currentIndex === insertAt) {
 			return;
 		}
 
 		const updatedToTasks = fromColumnId === toColumn.id ? updatedFromTasks.slice() : toColumn.tasks.slice();
 
-		if (fromColumnId === column.id && currentIndex === insertAt) {
-			return;
-		}
-
+		// User drops within same column but below it's original position
 		if (fromColumnId === column.id && currentIndex < insertAt) {
 			insertAt -= 1;
 		}
+
 		updatedToTasks.splice(insertAt, 0, task);
 		const newTask = { ...task, status: toColumn.id };
 		await updateTask(
