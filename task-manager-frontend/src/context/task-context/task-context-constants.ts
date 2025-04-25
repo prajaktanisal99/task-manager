@@ -1,4 +1,4 @@
-import { TaskPriority, TaskState } from "../types";
+import { TaskState, TaskPriority } from "../../types";
 
 export const initialTaskState: TaskState = {
 	columns: [],

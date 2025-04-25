@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { TaskPriority, TaskStatus, TaskType, TaskUpdateAction } from "../types";
+import { TaskPriority, TaskStatus, TaskType, TaskUpdateAction } from "../../types";
 
-import { TaskContext } from "../context";
+import { TaskContext } from "../../context";
 
 export const AddUpdateTask = () => {
 	const { editTask, taskToEdit, toggleAddTask, addNewTask, updateTask, getAllTasks } = useContext(TaskContext);

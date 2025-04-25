@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import { TaskType } from "../types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGripVertical, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { getFormattedDate, capitalizeFirstLetter } from "../utils";
-import { TaskContext } from "../context";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useContext } from "react";
+import { TaskContext } from "../../context";
+import { TaskType } from "../../types";
+import { capitalizeFirstLetter, getFormattedDate } from "../../utils";
 import { AddUpdateTask } from "./add-update-task";
 
 interface TaskCardProps {

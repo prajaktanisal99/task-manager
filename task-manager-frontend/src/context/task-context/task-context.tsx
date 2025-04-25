@@ -1,20 +1,23 @@
 import { createContext, useReducer } from "react";
-import { QueryParams, TaskColumnType, TaskPriority, TaskType } from "../types";
-import { taskReducer } from "../reducer";
+import { QueryParams, TaskColumnType, TaskPriority, TaskType } from "../../types";
+import { taskReducer } from "../../reducer";
 import { addTaskAction, updateTaskAction, getAllTasksAction, deleteTaskAction } from "./actions";
 import { TaskContextType, TaskActions } from "./task-context-type";
 import { initialTaskState } from "./task-context-constants";
+import { useNotification } from "../notification-context";
 
 export const TaskContext = createContext<TaskContextType>({} as TaskContextType);
 
 export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
 	const [state, dispatch] = useReducer(taskReducer, initialTaskState);
+	const { showNotification } = useNotification();
 
 	// Actions
-	const addNewTask = (task: TaskType) => addTaskAction(task, dispatch);
-	const getAllTasks = () => getAllTasksAction(dispatch);
-	const updateTask = (task: TaskType, query: QueryParams) => updateTaskAction(task, dispatch, query);
-	const deleteTask = (taskId: string) => deleteTaskAction(taskId, dispatch);
+	const addNewTask = (task: TaskType) => addTaskAction(task, dispatch, showNotification);
+	const getAllTasks = () => getAllTasksAction(dispatch, showNotification);
+	const updateTask = (task: TaskType, query: QueryParams) =>
+		updateTaskAction(task, dispatch, query, showNotification);
+	const deleteTask = (taskId: string) => deleteTaskAction(taskId, dispatch, showNotification);
 
 	const setColumns = (columns: Array<TaskColumnType>) => {
 		dispatch({ type: TaskActions.SET_COLUMNS, payload: columns });

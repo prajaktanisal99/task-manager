@@ -1,6 +1,7 @@
-import { TaskPriority } from "../types";
-import { TaskContext } from "../context";
+import { TaskContext } from "../../context/task-context/task-context";
+
 import { useContext } from "react";
+import { TaskPriority } from "../../types";
 
 export const TaskActionBar = () => {
 	const {

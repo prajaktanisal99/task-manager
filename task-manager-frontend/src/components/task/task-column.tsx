@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { TaskColumnType, TaskUpdateAction } from "../types";
+import { TaskColumnType, TaskType, TaskUpdateAction } from "../../types";
 import { TaskCard } from "./task-card";
-import { TaskContext } from "../context";
+import { TaskContext } from "../../context";
 
 interface TaskColumnProps {
 	column: TaskColumnType;
@@ -21,18 +21,18 @@ export const TaskColumn = ({ column }: TaskColumnProps) => {
 		const toColumn = columns.find((col) => col.id === column.id);
 		if (!fromColumn || !toColumn) return;
 
-		const task = fromColumn.tasks.find((t) => t._id === taskId);
+		const task = fromColumn.tasks.find((t: TaskType) => t._id === taskId);
 		if (!task) return;
 
 		// Remove task from original column
-		const updatedFromTasks = fromColumn.tasks.filter((t) => t._id !== taskId);
+		const updatedFromTasks = fromColumn.tasks.filter((t: TaskType) => t._id !== taskId);
 
 		// Determine where to insert the task in the destination column
 		const dropY = ev.clientY;
 		const taskElements = Array.from(document.querySelectorAll(`#${column.id} .task-card-container`));
 
 		let insertAt = toColumn.tasks.length;
-		const currentIndex = fromColumn.tasks.findIndex((t) => t._id == taskId);
+		const currentIndex = fromColumn.tasks.findIndex((t: TaskType) => t._id == taskId);
 
 		for (let i = 0; i < taskElements.length; i++) {
 			const box = taskElements[i].getBoundingClientRect();

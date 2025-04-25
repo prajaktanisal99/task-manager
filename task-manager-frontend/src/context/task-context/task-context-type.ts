@@ -1,4 +1,4 @@
-import { TaskColumnType, TaskPriority, TaskType, QueryParams } from "../types";
+import { TaskColumnType, TaskPriority, TaskType, QueryParams } from "../../types";
 
 export enum TaskActions {
 	SET_COLUMNS = "SET_COLUMNS",

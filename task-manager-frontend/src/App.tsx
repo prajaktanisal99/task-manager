@@ -1,12 +1,14 @@
 import "./App.css";
-import { TaskBoard } from "./components/task-board";
-import { TaskProvider } from "./context";
+import { TaskBoard } from "./components";
+import { NotificationProvider, TaskProvider } from "./context";
 
 function App() {
 	return (
-		<TaskProvider>
-			<TaskBoard />
-		</TaskProvider>
+		<NotificationProvider>
+			<TaskProvider>
+				<TaskBoard />
+			</TaskProvider>
+		</NotificationProvider>
 	);
 }
 

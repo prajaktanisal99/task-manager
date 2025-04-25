@@ -2,9 +2,9 @@ import { useContext, useEffect } from "react";
 
 import { TaskColumn } from "./task-column";
 import { TaskActionBar } from "./task-action-bar";
-import { getFilteredTasks } from "../utils";
+import { getFilteredTasks } from "../../utils";
 import { AddUpdateTask } from "./add-update-task";
-import { TaskContext } from "../context";
+import { TaskContext } from "../../context";
 
 export const TaskBoard = () => {
 	const { isFetchingTasks, dueByDate, columns, searchKey, selectedPriority, showAddTask, getAllTasks } =
