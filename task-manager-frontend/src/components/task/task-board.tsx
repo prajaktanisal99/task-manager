@@ -20,8 +20,10 @@ export const TaskBoard = () => {
 	return (
 		<div>
 			<div className="task-board-container">
-				<h1 className="task-board-title">Task Board</h1>
-				<TaskActionBar />
+				<div className="task-board-header">
+					<h1 className="task-board-title">Task Board</h1>
+					<TaskActionBar />
+				</div>
 				<div className="task-board-columns">
 					{getFilteredTasks(columns, searchKey, selectedPriority, dueByDate).map(
 						(column) => (

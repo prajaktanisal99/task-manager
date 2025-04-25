@@ -41,6 +41,7 @@ textarea {
 	padding: 2% 12%;
 	height: 100vh;
 	overflow-x: auto;
+	overflow-y: hidden;
 }
 
 .task-board-title {
@@ -69,6 +70,8 @@ textarea {
 	display: flex;
 	flex-direction: column;
 	gap: 1.25rem;
+	overflow-y: scroll;
+	max-height: 80vh;
 }
 
 .task-column-title {
