@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import { Task } from "../../../models/index.js";
 import { logger } from "../../../utils/index.js";
 import type { TaskRequestType } from "../../../types/index.js";
-import { ORDER_INCREMENT, TaskUpdateAction } from "../../../constants/index.js";
+import { TaskUpdateAction } from "../../../constants/index.js";
 import { validateUpdateAction } from "./utils/validate-update-action.js";
 import { getOrder } from "./utils/get-order.js";
 
@@ -32,7 +32,7 @@ export const updateTask = async (req: Request, res: Response): Promise<any> => {
 		if (req?.query?.action === TaskUpdateAction.EDIT) {
 			payload = { ...updatePayload };
 		} else {
-			const newOrder = getOrder(
+			const newOrder = await getOrder(
 				updatePayload?.order,
 				updatePayload?.previousTaskId,
 				updatePayload?.nextTaskId
