@@ -2,8 +2,8 @@ type LogLevel = "info" | "trace" | "debug" | "error" | "warn";
 
 const LogLevelOrder: Record<LogLevel, number> = {
 	trace: 0,
-	info: 1,
-	debug: 2,
+	debug: 1,
+	info: 2,
 	warn: 3,
 	error: 4,
 };

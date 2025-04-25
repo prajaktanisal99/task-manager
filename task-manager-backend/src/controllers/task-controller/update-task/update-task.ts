@@ -4,6 +4,7 @@ import { logger } from "../../../utils/index.js";
 import type { TaskRequestType } from "../../../types/index.js";
 import { ORDER_INCREMENT, TaskUpdateAction } from "../../../constants/index.js";
 import { validateUpdateAction } from "./utils/validate-update-action.js";
+import { getOrder } from "./utils/get-order.js";
 
 export const updateTask = async (req: Request, res: Response): Promise<any> => {
 	try {
@@ -25,38 +26,17 @@ export const updateTask = async (req: Request, res: Response): Promise<any> => {
 		if (!updatePayload?.title) {
 			return res.status(400).json({ status: false, message: "Bad Request. Title missing." });
 		}
+
 		let payload;
+
 		if (req?.query?.action === TaskUpdateAction.EDIT) {
 			payload = { ...updatePayload };
 		} else {
-			let newOrder: number;
-			let prevTaskId = updatePayload?.previousTaskId;
-			let nextTaskId = updatePayload?.nextTaskId;
-			if (!prevTaskId && !nextTaskId) {
-				// No reordering needed
-				newOrder = updatePayload?.order || ORDER_INCREMENT;
-			} else if (!prevTaskId) {
-				// Moving to start
-				const nextTask = await Task.findById(nextTaskId);
-				newOrder = nextTask?.order ? nextTask.order / 2 : ORDER_INCREMENT;
-			} else if (!nextTaskId) {
-				// Moving to end
-				const prevTask = await Task.findById(prevTaskId);
-				newOrder = prevTask?.order ? prevTask.order + ORDER_INCREMENT : ORDER_INCREMENT;
-			} else {
-				// Moving between tasks
-				const [prevTask, nextTask] = await Promise.all([
-					Task.findById(prevTaskId),
-					Task.findById(nextTaskId),
-				]);
-
-				if (prevTask && nextTask) {
-					newOrder = prevTask.order + (nextTask.order - prevTask.order) / 2;
-				} else {
-					newOrder = ORDER_INCREMENT;
-				}
-			}
-
+			const newOrder = getOrder(
+				updatePayload?.order,
+				updatePayload?.previousTaskId,
+				updatePayload?.nextTaskId
+			);
 			payload = { ...updatePayload, order: newOrder };
 		}
 

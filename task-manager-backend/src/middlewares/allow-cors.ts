@@ -1,22 +1,8 @@
 import cors from "cors";
 import type { CorsOptions } from "cors";
 
-const allowedOriginsEnv = process.env.ALLOWED_ORIGINS || "";
-const allowedOriginsDev = allowedOriginsEnv
-	.split(",")
-	.map((origin) => origin.trim())
-	.filter(Boolean);
-
+const allowedOriginsDev = ["http://localhost:5173"];
 const allowedOriginsProd = ["https://task-manager-frontend-0prx.onrender.com"];
-
-if (process.env.NODE_ENV !== "production") {
-	const devOrigins = ["http://localhost:5173"];
-	devOrigins.forEach((devOrigin) => {
-		if (!allowedOriginsDev.includes(devOrigin)) {
-			allowedOriginsDev.push(devOrigin);
-		}
-	});
-}
 
 const allowedOrigins = process.env.NODE_ENV === "production" ? allowedOriginsProd : allowedOriginsDev;
 
