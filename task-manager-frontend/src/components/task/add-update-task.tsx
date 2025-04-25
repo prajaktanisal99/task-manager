@@ -13,7 +13,7 @@ export const AddUpdateTask = () => {
 
 	useEffect(() => {
 		if (editTask && taskToEdit) {
-			setTitle(taskToEdit?.title);
+			setTitle(taskToEdit?.title || "");
 			setDescription(taskToEdit?.description);
 			setPriority(taskToEdit?.priority);
 			setDueDate(taskToEdit?.dueDate?.split("T")[0] ?? dueDate);
@@ -92,7 +92,12 @@ export const AddUpdateTask = () => {
 					<button className="add-task-button-cancel" onClick={() => toggleAddTask()}>
 						Cancel
 					</button>
-					<button className="add-task-button-save" onClick={handleSubmit}>
+					<button
+						// IMPLEMENTED DURING INTERVIEW - disable save when no title
+						disabled={!title}
+						className="add-task-button-save"
+						onClick={handleSubmit}
+					>
 						Save
 					</button>
 				</div>

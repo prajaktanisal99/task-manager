@@ -22,7 +22,20 @@ export const getFilteredTasks = (
 
 			return matchesPriority && matchesSearch && matchesDueByDate;
 		});
-		return { ...column, tasks: filteredTask };
+		return {
+			...column,
+			tasks: filteredTask,
+			// IMPLEMENTED DURING INTERVIEW - Sort by date(ascending order)
+			// 	.sort((task1, task2) => {
+			// 	if (task1?.dueDate < task2?.dueDate) {
+			// 		return -1;
+			// 	} else if (task1?.dueDate > task2?.dueDate) {
+			// 		return 1;
+			// 	} else {
+			// 		return 0;
+			// 	}
+			// }),
+		};
 	});
 
 	return filteredTasks;

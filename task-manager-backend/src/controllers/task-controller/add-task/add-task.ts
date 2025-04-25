@@ -19,11 +19,16 @@ export const createTask = async (req: Request, res: Response): Promise<any> => {
 		}
 
 		// Check for duplicate title (case-insensitive)
-		const existingTask = await Task.findOne({
+		// IMPLEMENTED DURING INTERVIEW - Do not save tasks with same description and title
+		const existingTaskWithTitleCheck = await Task.findOne({
 			title: { $regex: `^${title}$`, $options: "i" },
 		});
 
-		if (existingTask) {
+		const existingTaskWithDescCheck = await Task.findOne({
+			description: { $regex: `^${description.trim()}$`, $options: "i" },
+		});
+
+		if (existingTaskWithTitleCheck && existingTaskWithDescCheck) {
 			logger.warn(`Duplicate task title: ${title}`);
 			return res.status(409).json({
 				status: false,
