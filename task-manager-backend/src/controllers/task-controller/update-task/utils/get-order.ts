@@ -1,4 +1,4 @@
-import { Task } from "src/models/task-model.js";
+import { Task } from "../../../../models/index.js";
 import { ORDER_INCREMENT } from "../../../../constants/index.js";
 
 export const getOrder = async (order: number, prevTaskId?: string, nextTaskId?: string): Promise<number> => {
